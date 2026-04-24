@@ -18,7 +18,8 @@ from rest_framework.response import Response
 from .models import Servidor, Afastamento, EQUIPE_CHOICES, MESES_CHOICES
 from .forms import ServidorForm, AfastamentoForm, HorasExtraAddForm, FolgaCompensatoriaForm
 from .serializers import ServidorSerializer, AfastamentoSerializer
-
+from django.contrib.auth.models import User
+from .serializers import UserSerializer
 # ----------------------------------------------------------------------
 # 1. API VIEWSETS (USADOS PELO REACT)
 # ----------------------------------------------------------------------
@@ -220,3 +221,8 @@ def folga_horas_extra_view(request, servidor_pk):
     else:
         form = FolgaCompensatoriaForm()
     return render(request, 'folga_horas_extra_form.html', {'form': form, 'servidor': servidor})
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all().order_by('username')
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAdminUser] # Apenas admin pode gerenciar usuários
