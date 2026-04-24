@@ -1,119 +1,192 @@
-/* Definição de Variáveis e Design System */
+/* DESIGN SYSTEM & VARIÁVEIS */
 :root {
   --text: #6b6375;
   --text-h: #08060d;
-  --bg: #f8f9fa; /* Ajustado para casar com o padrão Bootstrap light */
+  --bg: #f8f9fa;
   --border: #e5e4e7;
   --code-bg: #f4f3ec;
-  --accent: #0d6efd; /* Azul padrão do seu FolgasMaster */
+  --accent: #0d6efd;
   --accent-bg: rgba(13, 110, 253, 0.1);
   --accent-border: rgba(13, 110, 253, 0.5);
+  --social-bg: rgba(244, 243, 236, 0.5);
   --shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
   --sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --heading: 'Inter', system-ui, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
-  font-size: 16px;
-  line-height: 1.5;
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color-scheme: light dark;
   color: var(--text);
-  background-color: var(--bg);
+  background: var(--bg);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Suporte a Dark Mode (Automático pelo Sistema Operacional) */
 @media (prefers-color-scheme: dark) {
   :root {
     --text: #9ca3af;
     --text-h: #f3f4f6;
-    --bg: #111827; /* Dark mais profundo */
-    --border: #374151;
-    --code-bg: #1f2937;
+    --bg: #111827;
+    --border: #2e303a;
+    --code-bg: #1f2028;
     --accent: #60a5fa;
-    --shadow: rgba(0, 0, 0, 0.4) 0 10px 15px -3px;
-  }
-  
-  body {
-    background-color: var(--bg);
-    color: var(--text);
-  }
-  
-  .card {
-    background-color: #1f2937 !material;
-    border-color: var(--border);
+    --accent-bg: rgba(96, 165, 250, 0.15);
+    --accent-border: rgba(96, 165, 250, 0.5);
+    --social-bg: rgba(47, 48, 58, 0.5);
   }
 }
 
-/* Reset e Estrutura Principal */
-body {
-  margin: 0;
-  font-family: var(--sans);
-  background-color: var(--bg);
-}
-
+/* ESTRUTURA ROOT */
 #root {
+  width: 100%;
+  margin: 0 auto;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
-/* Tipografia Estilizada */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--heading);
-  font-weight: 700;
-  color: var(--text-h);
-  letter-spacing: -0.02em;
-}
+body { margin: 0; }
 
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1.5rem;
-}
-
-/* Componentes Customizados (Estilo FolgasMaster) */
-code {
+/* COMPONENTES DE INTERFACE */
+.counter {
   font-family: var(--mono);
-  font-size: 0.9em;
-  padding: 0.2rem 0.4rem;
-  background: var(--code-bg);
-  border-radius: 6px;
+  font-size: 16px;
+  padding: 5px 12px;
+  border-radius: 8px;
   color: var(--accent);
+  background: var(--accent-bg);
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    border-color: var(--accent-border);
+    transform: translateY(-1px);
+  }
 }
 
-.card {
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+/* HERO ANIMATION (PARA O DASHBOARD OU LOGIN) */
+.hero {
+  position: relative;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+
+  .base, .framework, .shield {
+    position: absolute;
+    margin: 0 auto;
+    transition: transform 0.5s ease;
+  }
+
+  .shield {
+    z-index: 2;
+    top: 20px;
+    height: 80px;
+    filter: drop-shadow(0 0 15px var(--accent-border));
+    animation: float 3s ease-in-out infinite;
+  }
 }
 
-.card:hover {
-  box-shadow: var(--shadow);
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
-/* Tags de Status e Afastamento */
-.afastamento-tag {
-  background-color: var(--accent-bg);
-  color: var(--accent);
-  border: 1px solid var(--accent-border);
-  padding: 2px 8px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
+/* CONTEÚDO CENTRAL */
+#center {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  place-content: center;
+  place-items: center;
+  flex-grow: 1;
+  padding: 40px 20px;
+
+  @media (max-width: 1024px) {
+    padding: 32px 20px;
+    gap: 18px;
+  }
 }
 
-/* Ajustes de Navbar */
-.navbar {
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+/* SEÇÃO DE LINKS / RODAPÉ */
+#next-steps {
+  display: flex;
+  border-top: 1px solid var(--border);
+  text-align: left;
+  background: var(--bg);
+
+  & > div {
+    flex: 1;
+    padding: 32px;
+    border-right: 1px solid var(--border);
+    
+    &:last-child { border-right: none; }
+
+    @media (max-width: 1024px) {
+      padding: 24px 20px;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+  }
+
+  @media (max-width: 1024px) { flex-direction: column; text-align: center; }
 }
 
-.nav-link {
-  font-weight: 500;
-  color: rgba(255,255,255,0.85) !important;
+#next-steps ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+
+  a {
+    color: var(--text-h);
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 8px;
+    background: var(--social-bg);
+    display: flex;
+    padding: 8px 16px;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: 1px solid var(--border);
+
+    &:hover {
+      box-shadow: var(--shadow);
+      background: var(--bg);
+      border-color: var(--accent);
+    }
+  }
+
+  @media (max-width: 1024px) {
+    flex-wrap: wrap;
+    justify-content: center;
+    li { flex: 1 1 calc(50% - 12px); }
+  }
 }
 
-.nav-link.active {
-  color: #fff !important;
-  font-weight: 700;
+/* ELEMENTOS DE DETALHE */
+.ticks {
+  position: relative;
+  width: 100%;
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    border: 5px solid transparent;
+  }
+  &::before { left: 0; border-left-color: var(--border); }
+  &::after { right: 0; border-right-color: var(--border); }
+}
+
+#spacer {
+  height: 60px;
+  border-top: 1px solid var(--border);
 }
