@@ -5,6 +5,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings 
 from django.conf.urls.static import static 
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 # Importamos as views para manter compatibilidade com os templates antigos (opcional)
 from servidores.views import (
@@ -31,7 +35,13 @@ urlpatterns = [
     # ------------------------------------------------------------------
     # Inclui as rotas definidas em servidores/urls_api.py
     path('api/', include('servidores.urls_api')),
-
+    # Rota para login e obtenção do Token
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    # Rota para renovar o token automaticamente
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    
+    path('api/', include('servidores.urls_api')),
+    
     # ------------------------------------------------------------------
     # 4. ROTAS DE NAVEGAÇÃO (TEMPLATES DJANGO)
     # ------------------------------------------------------------------
