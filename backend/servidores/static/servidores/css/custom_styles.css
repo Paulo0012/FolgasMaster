@@ -1,0 +1,325 @@
+/* =====================================================
+   FOLGASMASTER — DARK MODERNO (SEM VERMELHO)
+   custom_styles.css (COMPLETO + OVERRIDES NUCLEARES)
+   ===================================================== */
+
+/* =========================
+   1. VARIÁVEIS DE CORES
+   ========================= */
+:root {
+    /* Fundos */
+    --bg-main: #0b0d10;
+    --bg-card: #14171c;
+    --bg-elevated: #1b1f26;
+
+    /* Accent */
+    --accent-blue: #4da3ff;
+    --accent-cyan: #5fd0cf;
+
+    /* Texto */
+    --text-primary: #f5f7fa;
+    --text-secondary: #c2c6d0;
+    --text-muted: #8a909e;
+
+    /* Estados */
+    --success: #3fbf8f;
+    --warning: #f0b25a;
+    --danger: #2a2f38; /* SEM VERMELHO: “danger” vira neutro escuro */
+    --info: #4da3ff;
+
+    /* Bordas */
+    --border-soft: rgba(255, 255, 255, 0.06);
+    --border-strong: rgba(255, 255, 255, 0.12);
+}
+
+/* =========================
+   2. FUNDO RAYCAST ABSTRATO
+   (SEM VERMELHO)
+   ========================= */
+body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+
+    background-image:
+        linear-gradient(
+            -45deg,
+            #0b0d10 0%,
+            #0b0d10 42%,
+            rgba(77, 163, 255, 0.12) 48%,
+            rgba(77, 163, 255, 0.12) 52%,
+            #0b0d10 58%,
+            #0b0d10 100%
+        );
+
+    background-size: 300% 300%;
+    animation: moveBackground 120s linear infinite;
+}
+
+@keyframes moveBackground {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+}
+*/
+/* =========================
+   3. CONTAINERS E CARDS
+   ========================= */
+.container,
+.card {
+    background-color: rgba(20, 23, 28, 0.96);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border-soft);
+    border-radius: 14px;
+    color: var(--text-primary);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+}
+
+/* Remove padding estranho quando usar card p-0 */
+.card.p-0 {
+    overflow: hidden;
+}
+
+/* =========================
+   4. TIPOGRAFIA
+   ========================= */
+h1, h2, h3, h4, h5 {
+    color: var(--text-primary);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+p, span, td, th, li {
+    color: var(--text-secondary);
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* =========================
+   5. LINKS
+   ========================= */
+a:not(.btn) {
+    color: var(--accent-cyan);
+    transition: color 0.2s ease;
+}
+
+a:not(.btn):hover {
+    color: var(--accent-blue);
+}
+
+/* =========================
+   6. NAVBAR (SEM VERMELHO)
+   ========================= */
+.navbar {
+    background-color: #0b0d10 !important;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.navbar-brand,
+.nav-link {
+    color: var(--text-primary) !important;
+}
+
+.navbar-brand:hover,
+.nav-link:hover {
+    color: var(--accent-blue) !important;
+}
+
+.navbar-toggler {
+    border-color: rgba(255,255,255,0.2);
+}
+
+/* =========================
+   7. TABELAS
+   ========================= */
+.table {
+    --bs-table-bg: var(--bg-card);
+    --bs-table-striped-bg: var(--bg-elevated);
+    --bs-table-hover-bg: rgba(77, 163, 255, 0.08);
+    --bs-table-color: var(--text-primary);
+
+    border-color: var(--border-soft) !important;
+}
+
+.table thead th {
+    color: var(--accent-blue);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-strong) !important;
+    background-color: var(--bg-card) !important;
+}
+
+.table td {
+    color: var(--text-secondary);
+}
+
+.table tr:hover td {
+    color: var(--text-primary);
+}
+
+/* Mata padrão table-primary (Bootstrap) */
+.table-primary,
+.table-primary th,
+.table-primary td {
+    background-color: var(--bg-card) !important;
+    color: var(--accent-blue) !important;
+    border-color: var(--border-strong) !important;
+}
+
+/* =========================
+   8. BADGES
+   ========================= */
+.badge {
+    font-weight: 600;
+    padding: 0.4em 0.65em;
+    border-radius: 6px;
+}
+
+/* Azul - padrão */
+.badge.bg-primary {
+    background-color: var(--accent-blue) !important;
+    color: #0b0d10 !important;
+}
+
+/* Verde - sucesso */
+.badge.bg-success {
+    background-color: var(--success) !important;
+    color: #0b0d10 !important;
+}
+
+/* Amarelo - aviso */
+.badge.bg-warning {
+    background-color: var(--warning) !important;
+    color: #0b0d10 !important;
+}
+
+/* SEM VERMELHO: danger vira neutro */
+.badge.bg-danger {
+    background-color: var(--danger) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Cinza */
+.badge.bg-secondary {
+    background-color: #2a2f38 !important;
+    color: var(--text-secondary) !important;
+}
+
+/* Tag de afastamento */
+.badge.afastamento-tag {
+    background-color: #2a2f38 !important;
+    color: var(--text-primary) !important;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* =========================
+   9. LISTAS
+   ========================= */
+.list-group-item {
+    background-color: var(--bg-elevated);
+    color: var(--text-primary);
+    border: 1px solid var(--border-soft);
+}
+
+/* =========================
+   10. BOTÕES
+   ========================= */
+.btn-primary {
+    background-color: var(--accent-blue);
+    border-color: var(--accent-blue);
+    color: #0b0d10;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background-color: #358be6;
+    border-color: #358be6;
+}
+
+.btn-outline-light {
+    color: var(--text-primary);
+    border-color: var(--border-soft);
+}
+
+.btn-outline-light:hover {
+    background-color: var(--bg-elevated);
+}
+
+/* =========================
+   11. HR / DIVISORES
+   ========================= */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        rgba(255,255,255,0.12),
+        transparent
+    );
+}
+
+/* =====================================================
+   12. MODO NUCLEAR: ZERO VERMELHO (OVERRIDE TOTAL)
+   (garante que nada vermelho sobreviva)
+   ===================================================== */
+
+/* 1) Mata qualquer background vermelho (body/html e pseudo-elementos) */
+html, body {
+  background-color: #0b0d10 !important;
+  background-image: linear-gradient(
+    -45deg,
+    #0b0d10 0%,
+    #0b0d10 42%,
+    rgba(77, 163, 255, 0.12) 48%,
+    rgba(77, 163, 255, 0.12) 52%,
+    #0b0d10 58%,
+    #0b0d10 100%
+  ) !important;
+  background-size: 300% 300% !important;
+  animation: moveBackground 120s linear infinite !important;
+}
+
+body::before,
+body::after,
+html::before,
+html::after {
+  content: none !important;
+  background: none !important;
+}
+
+/* 2) Remove bordas vermelhas que ficam em container/card/table */
+.container, .card, .table, .list-group-item {
+  border-color: rgba(255,255,255,0.08) !important;
+}
+
+/* 3) Títulos e ícones NUNCA vermelhos */
+h1, h2, h3, h4, h5,
+h1 i, h2 i, h3 i, h4 i, h5 i {
+  color: #f5f7fa !important;
+}
+
+/* 4) Cabeçalho de tabela (mata table-primary vermelho) */
+.table thead th,
+.table-primary,
+.table-primary th {
+  color: #4da3ff !important;
+  background-color: #14171c !important;
+  border-color: rgba(255,255,255,0.12) !important;
+}
+
+/* 5) Mata classes Bootstrap que jogam vermelho */
+.text-danger, .link-danger {
+  color: #f5f7fa !important;
+}
+
+.bg-danger {
+  background-color: #2a2f38 !important;
+  color: #f5f7fa !important;
+}
+
+/* 6) Se tiver qualquer coisa inline puxando vermelho, neutraliza */
+[style*="red"], [style*="#f00"], [style*="#ff0000"], [style*="primary-red"] {
+  color: #f5f7fa !important;
+  border-color: rgba(255,255,255,0.12) !important;
+  background-color: transparent !important;
+}

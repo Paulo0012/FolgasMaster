@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Deletar Servidor{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-lg mt-5 border-danger">
+            <div class="card-header bg-danger text-white">
+                <h3 class="mb-0"><i class="bi bi-exclamation-triangle-fill"></i> Confirmação de Exclusão</h3>
+            </div>
+            <div class="card-body p-4">
+                <p class="lead">Você tem certeza que deseja **deletar permanentemente** o servidor abaixo?</p>
+                
+                <div class="alert alert-light border p-3">
+                    <strong>Servidor:</strong> {{ object.nome_completo }}<br>
+                    <strong>Matrícula:</strong> {{ object.matricula }}<br>
+                    <strong>Equipe:</strong> {{ object.equipe }}
+                </div>
+                
+                <p class="text-danger">
+                    **AVISO:** Esta ação é irreversível e removerá todos os registros de afastamento associados.
+                </p>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-lg me-2">
+                        <i class="bi bi-trash-fill"></i> Confirmar Exclusão
+                    </button>
+                    <a href="{% url 'equipes_list' %}" class="btn btn-outline-secondary btn-lg">
+                        <i class="bi bi-arrow-left"></i> Cancelar
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

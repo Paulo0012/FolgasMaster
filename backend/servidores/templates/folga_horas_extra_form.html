@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">{{ titulo }}</h4>
+            </div>
+            <div class="card-body">
+                <p><strong>Servidor:</strong> {{ servidor.nome_completo }}</p>
+                <p><strong>Saldo Atual:</strong> 
+                    <span class="badge bg-primary">{{ saldo_atual|floatformat:2 }}h</span>
+                </p>
+                <p class="text-danger">
+                    **Regra:** Será deduzido **{{ horas_para_folga|floatformat:0 }} horas** do saldo atual.
+                    O servidor precisa ter, no mínimo, {{ horas_para_folga|floatformat:0 }}h acumuladas.
+                </p>
+                
+                <hr>
+
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="form-check mb-3">
+                        {{ form.confirmar }}
+                        <label class="form-check-label" for="{{ form.confirmar.id_for_label }}">
+                            {{ form.confirmar.label }}
+                        </label>
+                        {% for error in form.confirmar.errors %}
+                            <div class="form-text text-danger">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    
+                    <button type="submit" class="btn btn-warning mt-3">Confirmar Folga e Descontar Horas</button>
+                    <a href="{% url 'equipes_list' %}" class="btn btn-secondary mt-3">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

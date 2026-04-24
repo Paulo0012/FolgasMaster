@@ -1,0 +1,9 @@
+# Ignora o ambiente virtual
+venv/
+
+# Ignora arquivos de banco de dados SQLite
+*.sqlite3
+
+# Adicione outras pastas/arquivos que você não quer subir (ex: logs, settings locais)
+.vscode/
+__pycache__/
