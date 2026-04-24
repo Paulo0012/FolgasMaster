@@ -1,46 +1,37 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext'; // Precisamos criar este arquivo
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
+
+// Layouts e Páginas
 import MainLayout from './components/Layout/MainLayout';
+import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Equipes from './pages/Equipes';
 import ServidorCadastro from './pages/ServidorCadastro';
-import Login from './pages/Login'; // Precisamos criar esta página
 import Usuarios from './pages/Usuarios';
 
-// Componente de Proteção de Rota
-// Ele verifica se o usuário está logado. Se não, manda para o /login
-const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
+// Componente para proteger rotas privadas
+const PrivateRoute = ({ children }: { children: JSX.Element }) => {
   const { isAuthenticated } = useAuth();
-  return isAuthenticated ? <>{children}</> : <Navigate transition-style="fade" to="/login" />;
+  return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <Router>
         <Routes>
-          {/* Rota de Login (Fora do MainLayout para não mostrar a navbar) */}
+          {/* Rota Pública */}
           <Route path="/login" element={<Login />} />
 
-          {/* Rotas Protegidas (Dentro do MainLayout) */}
-          <Route 
-            path="/" 
-            element={
-              <PrivateRoute>
-                <MainLayout />
-              </PrivateRoute>
-            }
-          >
+          {/* Rotas Protegidas (Dentro do Layout Principal) */}
+          <Route path="/" element={<PrivateRoute><MainLayout /></PrivateRoute>}>
             <Route index element={<Dashboard />} />
             <Route path="equipes" element={<Equipes />} />
             <Route path="servidor/novo" element={<ServidorCadastro />} />
             <Route path="usuarios" element={<Usuarios />} />
           </Route>
-
-          {/* Redirecionar qualquer rota inexistente para o Dashboard */}
-          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      </BrowserRouter>
+      </Router>
     </AuthProvider>
   );
 }
