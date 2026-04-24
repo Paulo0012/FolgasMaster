@@ -118,3 +118,19 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated', # Protege a API por padrão
     ],
 }
+
+SIMPLE_JWT = {
+    # Tempo de expiração do Token de Acesso (agora 30 dias)
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=30), 
+    
+    # Tempo de expiração do Token de Refresh (geralmente maior ou igual)
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
+    
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': False,
+    'UPDATE_LAST_LOGIN': True, # Útil para auditoria no Admin
+    
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
