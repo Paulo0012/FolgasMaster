@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from datetime import timedelta
-import dotenv
+from dotenv import load_dotenv
 
 # ------------------------------------------------------------------
 # 0. INICIALIZAÇÃO E CARREGAMENTO DO .ENV
