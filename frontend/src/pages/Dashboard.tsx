@@ -16,41 +16,45 @@ const Dashboard: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [meuPerfil, setMeuPerfil] = useState<Servidor | null>(null);
 
+// src/pages/Dashboard.tsx
+
     useEffect(() => {
         const loadDashboardData = async () => {
             try {
                 setLoading(true);
                 
-                // 1. Busca os dados em paralelo
-                const [resServidores, resAfastados] = await Promise.all([
+                // Faz as 3 chamadas em paralelo para ser mais rápido
+                const [resServidores, resAfastados, resMe] = await Promise.allSettled([
                     servidorService.getAll(),
-                    afastamentoService.getAll()
+                    afastamentoService.getAll(),
+                    servidorService.getMe() // Busca o perfil do usuário logado
                 ]);
 
-                const listaServidores = resServidores.data;
-                setServidores(listaServidores);
+                // Trata a lista geral de servidores
+                if (resServidores.status === 'fulfilled') {
+                    setServidores(resServidores.value.data);
+                }
 
-                // 2. Lógica para encontrar o "Meu Perfil"
-                // Agora tentamos buscar o servidor que está vinculado ao usuário logado
-                // O Django via DRF geralmente envia um campo 'is_me' ou similar se configurado,
-                // mas por enquanto, vamos manter a lógica de encontrar o perfil vinculado.
-                const perfilEncontrado = listaServidores.find(s => s.status_escala !== 'Desconhecido'); 
-                setMeuPerfil(perfilEncontrado || null);
+                // Trata o perfil logado (O card azul)
+                if (resMe.status === 'fulfilled') {
+                    setMeuPerfil(resMe.value.data);
+                } else {
+                    setMeuPerfil(null); // Caso o usuário não tenha um servidor vinculado
+                }
 
-                // 3. Filtro de Afastados Hoje
-                const hojeStr = new Date().toISOString().split('T')[0];
-                const ativosHoje = resAfastados.data.filter(af => 
-                    hojeStr >= af.data_inicio && hojeStr <= af.data_fim
-                );
-                setAfastados(ativosHoje);
+                // Trata os afastados
+                if (resAfastados.status === 'fulfilled') {
+                    const hojeStr = new Date().toISOString().split('T')[0];
+                    const ativosHoje = resAfastados.value.data.filter(af => 
+                        hojeStr >= af.data_inicio && hojeStr <= af.data_fim
+                    );
+                    setAfastados(ativosHoje);
+                }
 
                 setError(null);
-            } catch (err: any) {
-                console.error("Erro ao carregar dashboard:", err);
-                // Se o erro for 401, o interceptor da api.ts já vai nos deslogar
-                if (err.response?.status !== 401) {
-                    setError("Erro ao carregar dados. Verifique sua conexão com o servidor.");
-                }
+            } catch (err) {
+                console.error("Erro geral no dashboard:", err);
+                setError("Erro ao sincronizar dados.");
             } finally {
                 setLoading(false);
             }
