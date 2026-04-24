@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import Equipes from './pages/Equipes';
 import ServidorCadastro from './pages/ServidorCadastro';
 import Login from './pages/Login'; // Precisamos criar esta página
+import Usuarios from './pages/Usuarios';
 
 // Componente de Proteção de Rota
 // Ele verifica se o usuário está logado. Se não, manda para o /login
@@ -33,6 +34,7 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="equipes" element={<Equipes />} />
             <Route path="servidor/novo" element={<ServidorCadastro />} />
+            <Route path="usuarios" element={<Usuarios />} />
           </Route>
 
           {/* Redirecionar qualquer rota inexistente para o Dashboard */}
