@@ -1,3 +1,5 @@
+// frontend/src/types/index.ts
+
 export interface PlantoesDados {
     trabalhados: number;
     restantes: number;
@@ -18,6 +20,7 @@ export interface Servidor {
     previsao_anual: string | null;
 }
 
+// ESTA É A PARTE QUE ESTÁ FALTANDO OU ESTÁ SEM O "EXPORT"
 export interface Afastamento {
     id: number;
     tipo: string;
