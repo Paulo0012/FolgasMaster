@@ -32,19 +32,15 @@ class ServidorViewSet(viewsets.ModelViewSet):
     queryset = Servidor.objects.all().order_by('equipe', 'nome_completo')
     serializer_class = ServidorSerializer
     permission_classes = [permissions.IsAuthenticated]
-
-    @action(detail=False, methods=['get'])
+    
+    @action(detail=False, methods=['get'], url_path='me')
     def me(self, request):
-        """Retorna os dados do servidor vinculado ao usuário logado."""
         try:
             servidor = Servidor.objects.get(usuario=request.user)
             serializer = self.get_serializer(servidor)
             return Response(serializer.data)
         except Servidor.DoesNotExist:
-            return Response(
-                {"detail": "Nenhum servidor vinculado a este usuário."}, 
-                status=status.HTTP_404_NOT_FOUND
-            )
+            return Response({"detail": "Não vinculado"}, status=404)
 
     @action(detail=True, methods=['post'])
     def adicionar_horas(self, request, pk=None):
