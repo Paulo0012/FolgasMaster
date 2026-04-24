@@ -1,5 +1,3 @@
-// frontend/src/types/index.ts
-
 export interface PlantoesDados {
     trabalhados: number;
     restantes: number;
