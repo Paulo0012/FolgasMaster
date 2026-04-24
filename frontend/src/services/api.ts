@@ -4,12 +4,12 @@ import type { Servidor, Afastamento } from '../types';
 
 // 1. Configuração base da instância
 const api = axios.create({
-    baseURL: 'http://127.0.0.1:8000/api/',
+    // Busca a URL do arquivo .env automaticamente
+    baseURL: import.meta.env.VITE_API_URL,
     headers: {
         'Content-Type': 'application/json',
     }
 });
-
 // 2. Interceptor para Injeção de Token (Padrão JWT)
 // Esse código roda antes de cada requisição ao servidor
 api.interceptors.request.use(
