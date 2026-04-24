@@ -14,38 +14,56 @@ class ServidorSerializer(serializers.ModelSerializer):
     Serializa o Servidor enviando campos calculados (Business Logic) 
     direto para o Frontend evitar cálculos complexos no React.
     """
-    status_escala = serializers.SerializerMethodField()
-    proxima_folga = serializers.SerializerMethodField()
-    plantoes_dados = serializers.SerializerMethodField()
-    previsao_anual = serializers.SerializerMethodField()
+    # Campos calculados pelo SerializerMethodField (Apenas leitura)
+    status_escala = serializers.SerializerMethodField(read_only=True)
+    proxima_folga = serializers.SerializerMethodField(read_only=True)
+    plantoes_dados = serializers.SerializerMethodField(read_only=True)
+    previsao_anual = serializers.SerializerMethodField(read_only=True)
+    
+    # Campo vindo do choice do Model
     equipe_display = serializers.CharField(source='get_equipe_display', read_only=True)
 
     class Meta:
         model = Servidor
         fields = [
             'id', 'matricula', 'nome_completo', 'equipe', 'equipe_display',
-            'foto', 'horas_extras_acumuladas', 'status_escala', 
-            'proxima_folga', 'plantoes_dados', 'previsao_anual'
+            'foto', 'horas_extras_acumuladas', 'data_base_plantao', 
+            'status_escala', 'proxima_folga', 'plantoes_dados', 'previsao_anual'
         ]
-
-    def get_status_escala(self, obj):
-        # Verifica se está afastado hoje antes de calcular escala
-        status, _ = obj.calcular_status_e_folga()
-        return status
-
-    def get_proxima_folga(self, obj):
-        _, folga = obj.calcular_status_e_folga()
-        return folga.strftime("%d/%m/%Y") if folga else None
-
-    def get_plantoes_dados(self, obj):
-        # Correção: Adicionado 'obj' e chamada correta do método do model
-        trabalhados, data_21, restantes = obj.calcular_21_plantoes()
-        return {
-            "trabalhados": trabalhados,
-            "restantes": restantes,
-            "previsao_21_plantoes": data_21.strftime("%d/%m/%Y") if data_21 else None
+        # data_base_plantao é necessário para o POST, mas os outros são automáticos
+        extra_kwargs = {
+            'foto': {'required': False},
+            'horas_extras_acumuladas': {'required': False},
         }
 
+    def get_status_escala(self, obj):
+        try:
+            status, _ = obj.calcular_status_e_folga()
+            return status
+        except:
+            return "Erro no cálculo"
+
+    def get_proxima_folga(self, obj):
+        try:
+            _, folga = obj.calcular_status_e_folga()
+            return folga.strftime("%d/%m/%Y") if folga else None
+        except:
+            return None
+
+    def get_plantoes_dados(self, obj):
+        try:
+            trabalhados, data_21, restantes = obj.calcular_21_plantoes()
+            return {
+                "trabalhados": trabalhados,
+                "restantes": restantes,
+                "previsao_21_plantoes": data_21.strftime("%d/%m/%Y") if data_21 else None
+            }
+        except:
+            return {"trabalhados": 0, "restantes": 0, "previsao_21_plantoes": None}
+
     def get_previsao_anual(self, obj):
-        data_anual = obj.calcular_previsao_ferias_anual()
-        return data_anual.strftime("%d/%m/%Y") if data_anual else None
+        try:
+            data_anual = obj.calcular_previsao_ferias_anual()
+            return data_anual.strftime("%d/%m/%Y") if data_anual else None
+        except:
+            return None
