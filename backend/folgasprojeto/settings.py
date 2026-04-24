@@ -9,7 +9,7 @@ import dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # CARREGA O ARQUIVO .ENV (Isso é o que faltava!)
-dotenv.load_dotenv(os.path.join(BASE_DIR, '.env'))
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # Tenta ler do .env. Se falhar, usa valores padrão para não travar o servidor.
 SECRET_KEY = os.getenv('SECRET_KEY')
