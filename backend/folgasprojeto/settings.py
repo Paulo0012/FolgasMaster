@@ -137,3 +137,7 @@ LOGOUT_REDIRECT_URL = 'login'
 # ------------------------------------------------------------------
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173", # Porta padrão do Vite/React
+]
