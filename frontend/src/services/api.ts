@@ -60,5 +60,9 @@ export const servidorService = {
 export const afastamentoService = {
     getAll: () => api.get<Afastamento[]>('afastamentos/'),
 };
+export const userService = {
+    getAll: () => api.get('usuarios/'), // Criaremos essa rota no Django
+    create: (data: any) => api.post('usuarios/', data),
+};
 
 export default api;
