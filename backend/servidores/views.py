@@ -36,11 +36,13 @@ class ServidorViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'], url_path='me')
     def me(self, request):
         try:
+            # Busca o servidor do usuário logado
             servidor = Servidor.objects.get(usuario=request.user)
             serializer = self.get_serializer(servidor)
             return Response(serializer.data)
         except Servidor.DoesNotExist:
-            return Response({"detail": "Não vinculado"}, status=404)
+            # Se não achar, retorna 200 com null para o React não quebrar
+            return Response(None, status=200)
 
     @action(detail=True, methods=['post'])
     def adicionar_horas(self, request, pk=None):
