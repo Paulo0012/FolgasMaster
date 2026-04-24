@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainLayout from './components/Layout/MainLayout';
 import Dashboard from './pages/Dashboard';
 import Equipes from './pages/Equipes';
+import ServidorCadastro from './pages/ServidorCadastro';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="equipes" element={<Equipes />} />
+          <Route path="servidor/novo" element={<ServidorCadastro />} />
           
           {/* Futuras rotas entrarão aqui */}
           {/* <Route path="servidor/novo" element={<ServidorForm />} /> */}
