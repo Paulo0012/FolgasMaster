@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Servidor, Afastamento
+from django.contrib.auth.models import User
 
 class AfastamentoSerializer(serializers.ModelSerializer):
     """Serializa os afastamentos, incluindo a descrição legível do tipo."""
@@ -67,3 +68,8 @@ class ServidorSerializer(serializers.ModelSerializer):
             return data_anual.strftime("%d/%m/%Y") if data_anual else None
         except:
             return None
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'is_active', 'is_staff']
