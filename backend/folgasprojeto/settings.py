@@ -80,8 +80,7 @@ DATABASES = {
 # ------------------------------------------------------------------
 # Permite que o Frontend (Vite/React) acesse a API do Django
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
+    os.getenv('CORS_ALLOWED_ORIGINS'),
 ]
 
 # ------------------------------------------------------------------
