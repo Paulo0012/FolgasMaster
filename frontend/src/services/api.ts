@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Servidor, Afastamento } from '../types';
+import type { Servidor, Afastamento } from '../types';
 
 // Configuração base do Axios para o seu Django
 const api = axios.create({

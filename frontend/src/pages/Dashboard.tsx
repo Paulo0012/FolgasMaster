@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Servidor, Afastamento } from '../types';
+import type { Servidor, Afastamento } from '../types';
 import { servidorService, afastamentoService } from '../services/api';
 
 // Importação dos sub-componentes

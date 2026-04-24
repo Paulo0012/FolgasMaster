@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Servidor } from '../types';
+import type { Servidor } from '../types';
 import { servidorService } from '../services/api';
 import EquipeCard from '../components/Equipes/EquipeCard';
 

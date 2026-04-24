@@ -1,5 +1,5 @@
 import React from 'react';
-import { Afastamento, Servidor } from '../../types';
+import type { Afastamento, Servidor } from '../../types';
 
 interface Props {
     afastados: Afastamento[];
