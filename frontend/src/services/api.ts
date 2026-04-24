@@ -51,6 +51,7 @@ export const authService = {
 export const servidorService = {
     getAll: () => api.get<Servidor[]>('servidores/'),
     getById: (id: number) => api.get<Servidor>(`servidores/${id}/`),
+    getMe: () => api.get<Servidor>('servidores/me/'),
     create: (data: FormData) => api.post('servidores/', data, {
         headers: { 'Content-Type': 'multipart/form-data' } // Importante para fotos
     }),
