@@ -1,19 +1,22 @@
+// frontend/src/services/api.ts
 import axios from 'axios';
-import type { Servidor, Afastamento } from '../types';
 
-// Configuração base do Axios para o seu Django
 const api = axios.create({
-    baseURL: 'http://127.0.0.1:8000/api/', 
+    baseURL: 'http://127.0.0.1:8000/api/',
 });
 
-// Serviços específicos para cada entidade
-export const servidorService = {
-    getAll: () => api.get<Servidor[]>('servidores/'),
-    getById: (id: number) => api.get<Servidor>(`servidores/${id}/`),
-};
+// Interceptor para adicionar o Token em cada requisição
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
 
-export const afastamentoService = {
-    getAll: () => api.get<Afastamento[]>('afastamentos/'),
+export const servidorService = {
+    getAll: () => api.get('servidores/'),
+    // ... outros serviços
 };
 
 export default api;
