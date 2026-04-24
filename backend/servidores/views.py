@@ -12,6 +12,8 @@ from django.utils.decorators import method_decorator
 # Importa os Models e Forms (ATUALIZADO COM OS NOVOS FORMS)
 from .models import Servidor, Afastamento, EQUIPE_CHOICES, MESES_CHOICES
 from .forms import ServidorForm, AfastamentoForm, HorasExtraAddForm, FolgaCompensatoriaForm
+from rest_framework import viewsets
+from .serializers import ServidorSerializer, AfastamentoSerializer
 
 # ----------------------------------------------------------------------
 # 1. Views de Navegação e Autenticação
@@ -298,3 +300,11 @@ def folga_horas_extra_view(request, servidor_pk):
         'horas_para_folga': HORAS_FOLGA
     }
     return render(request, 'folga_horas_extra_form.html', context)
+
+class ServidorViewSet(viewsets.ModelViewSet):
+    queryset = Servidor.objects.all()
+    serializer_class = ServidorSerializer
+
+class AfastamentoViewSet(viewsets.ModelViewSet):
+    queryset = Afastamento.objects.all()
+    serializer_class = AfastamentoSerializer
