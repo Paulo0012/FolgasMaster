@@ -1,14 +1,14 @@
 import os
 from pathlib import Path
 from datetime import timedelta
+import dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'sua-chave-secreta-aqui' # Mantenha a sua chave original
-
-DEBUG = True
-
-ALLOWED_HOSTS = []
+# Use os dados do .env
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = os.getenv('DEBUG') == 'True'
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
 # ------------------------------------------------------------------
 # 1. APLICAÇÕES INSTALADAS
