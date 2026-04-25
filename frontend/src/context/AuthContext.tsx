@@ -1,31 +1,43 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-interface AuthContextType {
-    isAuthenticated: boolean;
-    login: (token: string) => void;
-    logout: () => void;
+// 1. Adicione 'loading' na Interface
+interface AuthContextData {
+  isAuthenticated: boolean;
+  loading: boolean; // <-- Adicione aqui
+  login: (token: string) => void;
+  logout: () => void;
 }
 
-const AuthContext = createContext<AuthContextType>(null!);
+const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true); // <-- Começa como true
 
-    const login = (token: string) => {
-        localStorage.setItem('token', token);
-        setIsAuthenticated(true);
-    };
+  useEffect(() => {
+    const token = localStorage.getItem('@FolgasMaster:token');
+    if (token) {
+      setIsAuthenticated(true);
+    }
+    setLoading(false); // <-- Terminou de verificar, para o loading
+  }, []);
 
-    const logout = () => {
-        localStorage.removeItem('token');
-        setIsAuthenticated(false);
-    };
+  const login = (token: string) => {
+    localStorage.setItem('@FolgasMaster:token', token);
+    setIsAuthenticated(true);
+  };
 
-    return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
+  const logout = () => {
+    localStorage.removeItem('@FolgasMaster:token');
+    setIsAuthenticated(false);
+  };
+
+  return (
+    // 2. Passe o 'loading' no Provider
+    <AuthContext.Provider value={{ isAuthenticated, loading, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => useContext(AuthContext);
