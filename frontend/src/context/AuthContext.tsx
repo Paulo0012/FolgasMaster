@@ -39,5 +39,5 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     </AuthContext.Provider>
   );
 };
-
+ // 3. Atualize o hook para refletir a nova interface
 export const useAuth = () => useContext(AuthContext);
