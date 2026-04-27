@@ -1,9 +1,20 @@
-# Ignora o ambiente virtual
+# Ambientes Virtuais
 venv/
+.venv/
 
-# Ignora arquivos de banco de dados SQLite
+# Variáveis de ambiente (Segurança)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Banco de dados local
 *.sqlite3
 
-# Adicione outras pastas/arquivos que você não quer subir (ex: logs, settings locais)
-.vscode/
-__pycache__/
+# Node modules
+node_modules/
+dist/
+
+# Pasta de mídia (fotos dos servidores)
+backend/media/
